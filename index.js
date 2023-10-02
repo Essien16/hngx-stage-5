@@ -13,6 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use("/api/v1/video", videoUploadRouter);
 
+
 // Set up the path to your views directory
 app.set("views", path.join(__dirname, "views"));
 
@@ -22,13 +23,16 @@ app.set("view engine", "html");
 
 // Create a new route for rendering the video playback page
 app.get("/play", (req, res) => {
-  const videoUrl = req.query.videoUrl;
+  let videoUrl = req.query.videoUrl;
   if (!videoUrl) {
     res.status(400).send("Bad Request: videoUrl query parameter is required");
     return;
   }
+  // Replace spaces with %20
+  videoUrl = videoUrl.replace(/ /g, "%20");
   res.render("video", { videoUrl });
 });
+
 
 app.listen(3000, () => {
   console.log("Server is listening on port 3000");

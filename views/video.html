@@ -7,7 +7,8 @@
 </head>
 <body>
     <video controls width="640" height="480">
-        <source src="{{videoUrl}}" type="video/mp4">
+        <!-- Updated the src attribute to use EJS syntax -->
+        <source src="<%= videoUrl %>" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 </body>
