@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const AWS = require("aws-sdk");
 const dotenv = require("dotenv");
 const path = require("path"); // Import the path module
@@ -8,6 +9,7 @@ dotenv.config();
 const videoUploadRouter = require("./src/route/videoUploadRoute");
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use("/api/v1/video", videoUploadRouter);
 
