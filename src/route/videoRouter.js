@@ -7,7 +7,7 @@ const {
 } = require("../controller/videoController");
 const router = express.Router()
 
-router.get("/stop/stream/:sessionId", concludeRecordingAndStore);
+router.post("/stop/stream/:sessionId", concludeRecordingAndStore);
 router.get("/stream/:sessionId", playbackRecordedVideo);
 router.post("/stream/:sessionId", receiveRecordingData);
 router.post("/record", initiateRecording);
