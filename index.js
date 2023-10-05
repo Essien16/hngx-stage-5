@@ -1,39 +1,38 @@
 const express = require("express");
+const app = express();
 const multer = require("multer");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const AWS = require("aws-sdk");
 const dotenv = require("dotenv");
-const path = require("path"); // Import the path module
 dotenv.config();
-const videoUploadRouter = require("./src/route/videoUploadRoute");
+const videoRouter = require("./src/route/videoRouter")
 
-const app = express();
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/api/v1/video", videoUploadRouter);
+app.use("/api/v1/", videoRouter);
 
-
-// Set up the path to your views directory
-app.set("views", path.join(__dirname, "views"));
 
 // Set up the view engine as 'html' and use the 'ejs' module's renderFile function
-app.engine("html", require("ejs").renderFile);
-app.set("view engine", "html");
+// app.engine("html", require("ejs").renderFile);
+// app.set("view engine", "html");
 
-// Create a new route for rendering the video playback page
-app.get("/play", (req, res) => {
-  let videoUrl = req.query.videoUrl;
-  if (!videoUrl) {
-    res.status(400).send("Bad Request: videoUrl query parameter is required");
-    return;
-  }
-  // Replace spaces with %20
-  videoUrl = videoUrl.replace(/ /g, "%20");
-  res.render("video", { videoUrl });
-});
+// app.get("/play", (req, res) => {
+//   let videoUrl = req.query.videoUrl;
+//   if (!videoUrl) {
+//     res.status(400).send("Bad Request: videoUrl query parameter is required");
+//     return;
+//   }
+//   // Replace spaces with %20
+//   videoUrl = videoUrl.replace(/ /g, "%20");
+//   res.render("video", { videoUrl });
+// });
 
-
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
   console.log("Server is listening on port 3000");
 });
